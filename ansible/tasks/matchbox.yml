@@ -1,0 +1,96 @@
+---
+  # - name: pull dnsmasq image
+  #   docker_image:
+  #     name: quay.io/coreos/dnsmasq
+  #     tag: latest
+  #     state: present
+  #     source: pull
+
+  # - name: pull matchbox image
+  #   docker_image:
+  #     name: quay.io/coreos/matchbox
+  #     tag: latest
+  #     state: present
+  #     source: pull
+
+  - name: "dnsmasq: clone repo"
+    git:
+      repo: https://github.com/poseidon/matchbox.git
+      dest: /usr/src/matchbox
+      update: true
+    register: repo
+
+  #
+  # Ansible version of contrib/dnsmasq/get-tftp-files in repo
+  #
+
+  - name: "dnsmasq: create tftpboot/"
+    file:
+      path: /usr/src/matchbox/contrib/dnsmasq/tftpboot
+      state: directory
+
+  - name: "dnsmasq: tftpboot/undionly.kpxe exists?"
+    stat:
+      path: /usr/src/matchbox/contrib/dnsmasq/tftpboot/undionly.kpxe
+    register: undi
+
+  - name: "dnsmasq: get tftpboot/undionly.kpxe"
+    get_url:
+      url: http://boot.ipxe.org/undionly.kpxe
+      dest: /usr/src/matchbox/contrib/dnsmasq/tftpboot/undionly.kpxe
+    when: not undi.stat.exists
+
+  - name: "dnsmasq: tftpboot/ipxe.efi exists?"
+    stat:
+      path: /usr/src/matchbox/contrib/dnsmasq/tftpboot/ipxe.efi
+    register: efi
+
+  - name: "dnsmasq: get tftpboot/ipxe.efi"
+    get_url:
+      url: http://boot.ipxe.org/ipxe.efi
+      dest: /usr/src/matchbox/contrib/dnsmasq/tftpboot/ipxe.efi
+    when: not efi.stat.exists
+
+  #
+  #
+  #
+
+  - name: "dnsmasq: build image"
+    docker_image:
+      name: poseidon/dnsmasq:latest
+      build:
+        path: /usr/src/matchbox/contrib/dnsmasq
+        pull: true
+        nocache: true
+      source: build
+      force_source: true
+      state: present
+    when: repo.changed
+    register: image
+
+  - name: "dnsmasq: create container"
+    docker_container:
+      name: dnsmasq
+      image: poseidon/dnsmasq:latest
+      state: present
+      recreate: yes
+      capabilities:
+        - NET_ADMIN
+      network_mode: host
+      command: >-
+        -d
+        --dhcp-range=192.168.10.1,proxy,255.255.255.0
+        --enable-tftp
+        --tftp-root=/var/lib/tftpboot
+        --dhcp-userclass=set:ipxe,iPXE
+        --pxe-service=tag:#ipxe,x86PC,"PXE chainload to iPXE",undionly.kpxe
+        --pxe-service=tag:ipxe,x86PC,"iPXE",http://boot.ipxe.org/demo/boot.php
+    when: image.changed
+    register: container
+
+  - name: "dnsmasq: start container"
+    docker_container:
+      name: dnsmasq
+      state: started
+      restart: yes
+    when: container.changed

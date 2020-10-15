@@ -1,0 +1,11 @@
+--- src/Makefile.orig
++++ src/Makefile
+@@ -4,7 +4,7 @@
+ #
+ 
+ CLEANUP		:=
+-CFLAGS		:=
++CFLAGS		:= -fno-pie
+ ASFLAGS		:=
+ LDFLAGS		:=
+ HOST_CFLAGS	:=

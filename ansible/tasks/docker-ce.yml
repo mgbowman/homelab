@@ -1,0 +1,29 @@
+---
+  - name: add gpg key
+    apt_key:
+        url: https://download.docker.com/linux/raspbian/gpg
+        state: present
+
+  - name: configure apt repo
+    apt_repository:
+      repo: deb [arch=armhf] https://download.docker.com/linux/raspbian buster stable
+      filename: docker
+      state: present
+      update_cache: yes
+
+  # FIXME: ADD APT UPDATE
+
+  - name: install package
+    apt:
+      pkg: docker-ce
+      state: present
+      # update_cache: yes
+      # install_recommends: no
+
+  - name: start/enable service
+    service:
+      name: docker
+      state: started
+      enabled: yes
+
+  # TODO: make sure docker is running

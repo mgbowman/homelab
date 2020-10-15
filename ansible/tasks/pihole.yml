@@ -1,0 +1,7 @@
+---
+  - name: "pihole: pull image"
+    docker_image:
+      name: pihole/pihole
+      tag: latest
+      state: present
+      source: pull

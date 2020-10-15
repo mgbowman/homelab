@@ -1,0 +1,8 @@
+---
+- hosts: all
+  gather_facts: no
+  tasks:
+    # - include: tasks/docker-ce.yml
+    # - include: tasks/matchbox-tftp.yml
+    # - include: tasks/pihole.yml
+    - include: tasks/matchbox.yml

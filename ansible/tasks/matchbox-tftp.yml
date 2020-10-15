@@ -1,0 +1,36 @@
+---
+  - name: ensure module deps
+    package:
+      name:
+        - git
+        - python-docker
+      state: present
+
+  - name: clone git repo
+    git:
+      repo: https://github.com/mgbowman/matchbox-tftp.git
+      dest: /usr/src/matchbox-tftp
+      update: true
+    register: repo
+
+  - name: build docker image
+    docker_image:
+      name: matchbox-tftp
+      build:
+        path: /usr/src/matchbox-tftp
+        pull: true
+        nocache: true
+        # args:
+        #   matchbox: http://matchbox:8080/boot.ipxe
+      source: build
+      force_source: true
+      state: present
+    when: repo.changed
+
+  - name: (re)start docker container
+    docker_container:
+      name: matchbox-tftp
+      image: matchbox-tftp
+      state: started
+      ports:
+        - "69:69/udp"
