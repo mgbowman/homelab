@@ -42,10 +42,21 @@ jobs:
         name: Build matchbox Go binary
         run: make build
       -
-        name: Build and Push Images
+        name: Build and push matchbox images
         uses: docker/build-push-action@v2
         with:
           context: .
           platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
           push: true
           tags: mgbowman/matchbox:latest
+      -
+        name: Download TFTP binaries
+        run: make tftp
+      -
+        name: Build and push matchbox-dnsmasq images
+        uses: docker/build-push-action@v2
+        with:
+          context: contrib/dnsmasq
+          platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
+          push: true
+          tags: mgbowman/matchbox-dnsmasq:latest          
