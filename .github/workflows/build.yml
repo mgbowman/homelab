@@ -7,11 +7,18 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
+      -
+        name: Checkout homelab
+        uses: actions/checkout@v2
+        with:
+          repository: mgbowman/homelab
+          path: homelab
       - 
-        name: Checkout
+        name: Checkout matchbox
         uses: actions/checkout@v2
         with:
           repository: poseidon/matchbox
+          path: matchbox
       - 
         name: Setup Go
         uses: actions/setup-go@v2
@@ -40,24 +47,25 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
       -
         name: Build matchbox Go binary
-        run: make build
+        run: make -C matchbox build
       -
         name: Build and push matchbox images
         uses: docker/build-push-action@v2
         with:
-          context: .
+          file: matchbox/Dockerfile
+          context: matchbox
           platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
           push: true
           tags: mgbowman/matchbox:latest
       -
         name: Download TFTP binaries
-        run: make -C contrib/dnsmasq/ tftp
+        run: make -C matchbox/contrib/dnsmasq/ tftp
       -
         name: Build and push matchbox-dnsmasq images
         uses: docker/build-push-action@v2
         with:
-          file: contrib/dnsmasq/Dockerfile
-          context: contrib/dnsmasq/
+          file: matchbox/contrib/dnsmasq/Dockerfile
+          context: matchbox/contrib/dnsmasq/
           platforms: linux/amd64,linux/arm64,linux/386,linux/arm/v7,linux/arm/v6
           push: true
           tags: mgbowman/matchbox-dnsmasq:latest          
