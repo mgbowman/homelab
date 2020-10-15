@@ -51,7 +51,7 @@ jobs:
           tags: mgbowman/matchbox:latest
       -
         name: Download TFTP binaries
-        run: make tftp
+        run: make -C contrib/dnsmasq tftp
       -
         name: Build and push matchbox-dnsmasq images
         uses: docker/build-push-action@v2
