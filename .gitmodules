@@ -1,0 +1,3 @@
+[submodule "rpi/pi-gen/pi-gen"]
+	path = rpi/pi-gen/pi-gen
+	url = git@github.com:mgbowman/pi-gen
