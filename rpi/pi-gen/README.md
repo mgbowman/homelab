@@ -7,11 +7,15 @@ A collection of my custom builds of Raspbian OS using [mgbowman/pi-gen](https://
 > cd homelab/rpi/pi-gen
 
 
-# build.sh [-r <release>] [-i <id_rsa.pub>] ansible-lite
+# build.sh [-r <release>] [-i <id_rsa.pub>] <config>
 
-# Build the 'ansible-lite' configuration
+# Build the 'ansible-lite' config
+
+# Using the defaults
 > build.sh ansible-lite
-> build.sh -r buster -i ~/.ssh/id_rsa.pub ansible-lite
+
+# Overriding <release> and/or <id_rsa.pub>
+> build.sh -r buster -i ~/.ssh/id_rsa.pub configansible-lite
 
 # roughly equates to ...
 
