@@ -1,4 +1,4 @@
-IMG_NAME="pi"
+IMG_NAME="ansible-lite"
 RELEASE="buster"
 TARGET_HOSTNAME="pi"
 TIMEZONE_DEFAULT="Europe/Amsterdam"
