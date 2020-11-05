@@ -1,6 +1,6 @@
 # pi-gen
 
-A collection of my custom builds of Raspbian OS
+A collection of my custom builds of Raspbian OS using [mgbowman/pi-gen](https://github.com/mgbowman/pi-gen.git)
 
 ```
 > build.sh ansible-lite
