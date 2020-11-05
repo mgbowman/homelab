@@ -4,8 +4,6 @@ A collection of my custom builds of Raspbian OS
 
 ```
 > build.sh ansible-lite
-
-# should map to the following...
 > docker run --rm \
     -v $PWD/ansible-lite:/config:ro \
     -v $PWD/stages:/stages:ro \
@@ -13,5 +11,6 @@ A collection of my custom builds of Raspbian OS
     mgbowman/pi-gen
 
 # should result in images in deploy/
-
+> ls -lah deploy/
+..
 ```
