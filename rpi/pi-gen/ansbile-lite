@@ -1,7 +1,0 @@
-IMG_NAME="ansible-lite"
-TARGET_HOSTNAME="pi"
-TIMEZONE_DEFAULT="Europe/Amsterdam"
-FIRST_USER_NAME="ansible"
-FIRST_USER_PASS="ansible"
-# raspbian lite
-STAGE_LIST="stage0 stage1 stage2"

@@ -1,41 +1,15 @@
 # pi-gen
 
-A collection of my custom builds of Raspbian OS using [mgbowman/pi-gen](https://github.com/mgbowman/pi-gen.git)
+A collection of my custom builds of Raspbian OS using (link to ../../docker/pi-gen)
 
 ```
 > git clone https://github.com/mgbowman/homelab.git
 > cd homelab/rpi/pi-gen
-
-# Usage:
-> build.sh [-r <release>] [-i <id_rsa.pub>] <config>
-
-# Defaults:
-> build.sh ansible-lite
-
-# Overrides:
-> build.sh -r buster -i ~/.ssh/id_rsa.pub ansible-lite
+> ./build.sh configs/ansible-lite
 
 # Baked images will be in deploy/
 > ls -lah deploy/
   ..
   ..
 
----
-
-docker run --rm \
-  -e IMG_NAME="raspbian" \
-  -e RELEASE="<release>" \
-  -e TARGET_HOSTNAME="raspbian" \
-  -e TIMEZONE_DEFAULT="GMT" \
-  -e LOCALE_DEFAULT="en_US.UTF-8" \
-  -e KEYBOARD_MAP="us" \
-  -e KEYBOARD_LAYOUT="English (US)" \
-  -e ENABLE_SSH=1 \
-  -e PUBKEY_ONLY_SSH=1 \
-  -e PUBKEY_SSH_FIRST_USER="<id_rsa.pub>" \
-  -e DEPLOY_ZIP=0 \
-  -v $PWD/<config>:/config:ro \
-  -v $PWD/stages:/stages:ro \
-  -v $PWD/deploy:/deploy \
-  mgbowman/pi-gen
 ```
