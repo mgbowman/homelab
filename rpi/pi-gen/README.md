@@ -6,18 +6,21 @@ A collection of my custom builds of Raspbian OS using [mgbowman/pi-gen](https://
 > git clone https://github.com/mgbowman/homelab.git
 > cd homelab/rpi/pi-gen
 
+# Usage:
+> build.sh [-r <release>] [-i <id_rsa.pub>] <config>
 
-# build.sh [-r <release>] [-i <id_rsa.pub>] <config>
-
-# Build the 'ansible-lite' config
-
-# Using the defaults
+# Defaults:
 > build.sh ansible-lite
 
-# Overriding <release> and/or <id_rsa.pub>
-> build.sh -r buster -i ~/.ssh/id_rsa.pub configansible-lite
+# Overrides:
+> build.sh -r buster -i ~/.ssh/id_rsa.pub ansible-lite
 
-# roughly equates to ...
+# Baked images will be in deploy/
+> ls -lah deploy/
+  ..
+  ..
+
+---
 
 docker run --rm \
   -e IMG_NAME="raspbian" \
@@ -31,12 +34,8 @@ docker run --rm \
   -e PUBKEY_ONLY_SSH=1 \
   -e PUBKEY_SSH_FIRST_USER="<id_rsa.pub>" \
   -e DEPLOY_ZIP=0 \
-  -v $PWD/ansible-lite:/config:ro \
+  -v $PWD/<config>:/config:ro \
   -v $PWD/stages:/stages:ro \
   -v $PWD/deploy:/deploy \
   mgbowman/pi-gen
-
-# Baked images will be in deploy/
-> ls -lah deploy/
-  ..
 ```

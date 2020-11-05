@@ -1,12 +1,7 @@
 IMG_NAME="ansible-lite"
-RELEASE="buster"
 TARGET_HOSTNAME="pi"
 TIMEZONE_DEFAULT="Europe/Amsterdam"
 FIRST_USER_NAME="ansible"
 FIRST_USER_PASS="ansible"
-LOCALE_DEFAULT="en_US.UTF-8"
-KEYBOARD_MAP="us"
-KEYBOARD_LAYOUT="English (US)"
-DEPLOY_ZIP=0
 # raspbian lite
 STAGE_LIST="stage0 stage1 stage2"
