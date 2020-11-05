@@ -1,3 +1,0 @@
-# Raspberry Pi
-
-A collection of all things Raspberry Pi...
