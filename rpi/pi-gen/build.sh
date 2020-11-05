@@ -8,12 +8,12 @@ IMG_NAME="$( basename "${CONFIG}" )"
 
 docker run --rm --privileged \
   -e IMG_NAME="${IMG_NAME}" \
-	-e TARGET_HOSTNAME="pi" \
-	-e TIMEZONE_DEFAULT="Europe/Amsterdam" \
-	-e LOCALE_DEFAULT="en_US.UTF-8" \
-	-e KEYBOARD_MAP="us" \
-	-e KEYBOARD_LAYOUT="English (US)" \
-	-e DEPLOY_ZIP=0 \
+  -e TARGET_HOSTNAME="pi" \
+  -e TIMEZONE_DEFAULT="Europe/Amsterdam" \
+  -e LOCALE_DEFAULT="en_US.UTF-8" \
+  -e KEYBOARD_MAP="us" \
+  -e KEYBOARD_LAYOUT="English (US)" \
+  -e DEPLOY_ZIP=0 \
   -e $CONFIG \
   -v $DIR/stages:/pi-gen/stages:ro \
   -v $DIR/deploy:/pi-gen/deploy \
